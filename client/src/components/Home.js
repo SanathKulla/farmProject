@@ -27,12 +27,13 @@
 // }
 
 // export default Home;
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import RegisterPage from "./RegisterPage";
 import LoginPage from "./LoginPage";
 import { Route } from "react-router-dom";
 import ImgMediaCard from "./ImgMediaCard";
+import { useCrops } from "../context/CropsContext";
 
 function Home() {
   function HandleRegister() {
@@ -41,6 +42,7 @@ function Home() {
   function HandleLogin() {
     <Route path="login" element={<LoginPage />} />;
   }
+  const { crops } = useCrops();
   return (
     // <>
     //   <button onClick={HandleRegister}> register</button>
@@ -55,22 +57,17 @@ function Home() {
           <h1>sidebar</h1>
         </div>
 
-        <div className="home-cards">
+        <div className="home-cards mx-auto">
           <h1 className="heading">Trending crops</h1>
-          <div className="Dis">
-            <ImgMediaCard />
-            <ImgMediaCard />
-            <ImgMediaCard />
-          </div>
-          <div className="Dis">
-            <ImgMediaCard />
-            <ImgMediaCard />
-            <ImgMediaCard />
-          </div>
-          <div className="Dis">
-            <ImgMediaCard />
-            <ImgMediaCard />
-            <ImgMediaCard />
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10">
+            {crops &&
+              Object.keys(crops).map((crop, index) => (
+                <ImgMediaCard
+                  cropName={crop}
+                  key={crop}
+                  imameLink={crops[crop].imageLink}
+                />
+              ))}
           </div>
         </div>
       </div>

@@ -12,6 +12,8 @@ import Layout from "./components/Layout";
 import RegisterPage from "./components/RegisterPage";
 import LoginPage from "./components/LoginPage";
 import CropDetails from "./components/CropDetails";
+import { useEffect, useState } from "react";
+import { CropsContext, cropContext, useCrops } from "./context/CropsContext";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -19,13 +21,18 @@ const router = createBrowserRouter(
         <Route index element={<Home />} />
         <Route path="register" element={<RegisterPage />} />
         <Route path="login" element={<LoginPage />} />
-        <Route path="cropDetails" element={<CropDetails />} />
+        <Route path="cropDetails/:name" element={<CropDetails />} />
       </Route>
     </Route>
   )
 );
 function App() {
-  return <RouterProvider router={router} />;
+  const [crops, setCrops] = useState(null);
+  return (
+    <CropsContext.Provider value={{ crops, setCrops }}>
+      <RouterProvider router={router} />
+    </CropsContext.Provider>
+  );
 }
 
 export default App;
