@@ -14,6 +14,11 @@ import LoginPage from "./components/LoginPage";
 import CropDetails from "./components/CropDetails";
 import { useEffect, useState } from "react";
 import { CropsContext, cropContext, useCrops } from "./context/CropsContext";
+import UserProfile from "./components/UserProfile";
+import { UserContext } from "./context/UserContext";
+import Logout from "./components/Logout";
+import React from "react";
+import { Toaster, toast } from "react-hot-toast";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -22,15 +27,46 @@ const router = createBrowserRouter(
         <Route path="register" element={<RegisterPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="cropDetails/:name" element={<CropDetails />} />
+        <Route path="userProfile" element={<UserProfile />} />
+        <Route path="logout" element={<Logout />} />
       </Route>
     </Route>
   )
 );
+
 function App() {
   const [crops, setCrops] = useState(null);
+  const [user, setUser] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(user !== null);
+  const getUserFromDb = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/profile", {
+        credentials: "include",
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
+        setLoggedIn(true);
+      } else {
+        throw new Error("failed to fetch user");
+      }
+    } catch (err) {
+      setUser(null);
+      setLoggedIn(false);
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    getUserFromDb();
+  }, [loggedIn]);
   return (
     <CropsContext.Provider value={{ crops, setCrops }}>
-      <RouterProvider router={router} />
+      <UserContext.Provider
+        value={{ user, setUser, loggedIn, setLoggedIn, getUserFromDb }}
+      >
+        <Toaster />
+        <RouterProvider router={router} />
+      </UserContext.Provider>
     </CropsContext.Provider>
   );
 }

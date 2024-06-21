@@ -1,4 +1,19 @@
 const mongoose = require("mongoose");
+
+const cropSchema = new mongoose.Schema({
+  name: {
+    type: String,
+  },
+  minPrice: {
+    type: Number,
+  },
+  maxPrice: {
+    type: Number,
+  },
+  avgPrice: {
+    type: Number,
+  },
+});
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -13,6 +28,20 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       unique: [true, "please enter the password"],
+    },
+    address: {
+      type: String,
+    },
+    contactNumber: {
+      type: String,
+    },
+    cropDetails: {
+      type: [cropSchema],
+    },
+    type: {
+      type: String,
+      enum: ["farmer", "industrialist"],
+      required: true,
     },
   },
   {

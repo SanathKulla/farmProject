@@ -34,6 +34,7 @@ import LoginPage from "./LoginPage";
 import { Route } from "react-router-dom";
 import ImgMediaCard from "./ImgMediaCard";
 import { useCrops } from "../context/CropsContext";
+import Sidebar from "./Sidebar";
 
 function Home() {
   function HandleRegister() {
@@ -49,16 +50,10 @@ function Home() {
     //   <button onClick={HandleLogin}> login</button>
     // </>
     <>
-      <div>Home</div>
-      <NavLink to={"register"}>register</NavLink>
-      <NavLink to={"login"}>login</NavLink>
-      <div className="card-wrapper-div">
-        <div className="sidebar">
-          <h1>sidebar</h1>
-        </div>
-
+      <div className="card-wrapper-div bg-gray-50">
+        <Sidebar />
         <div className="home-cards mx-auto">
-          <h1 className="heading">Trending crops</h1>
+          <h1 className="heading p-6 font-bold text-3xl">Trending crops</h1>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-10">
             {crops &&
               Object.keys(crops).map((crop, index) => (

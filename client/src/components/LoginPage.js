@@ -13,8 +13,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState, useContext } from "react";
-import { Navigate, NavLink } from "react-router-dom";
-import { UserContext } from "./UserContext";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
+import { useUser } from "../context/UserContext";
 function Copyright(props) {
   return (
     <Typography
@@ -41,23 +41,27 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const { setUserInfo } = useContext(UserContext);
+  const { setUser, setLoggedIn, getUserFromDb } = useUser();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch("http://localhost:4000/login", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    });
-    if (response.ok) {
-      response.json().then((userInfo) => {
-        setUserInfo(userInfo);
-        setRedirect(true);
+    try {
+      const response = await fetch("http://localhost:4000/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
       });
-    } else {
-      alert("wrong credentials");
+      if (response.ok) {
+        response.json().then((userInfo) => {
+          setRedirect(true);
+        });
+        await getUserFromDb();
+      } else {
+        alert("wrong credentials");
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
   if (redirect) {

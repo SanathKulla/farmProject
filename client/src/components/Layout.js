@@ -22,7 +22,7 @@ function Layout() {
     });
     setCrops(obj);
   };
-  console.log(crops);
+  // console.log(crops);
   useEffect(() => {
     getAndSetCrops();
   }, []);
@@ -35,7 +35,7 @@ function Layout() {
     <>
       <div>
         <Navbar />
-        <div>
+        <div className="pt-16">
           <Outlet />
         </div>
       </div>

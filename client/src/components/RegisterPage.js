@@ -98,13 +98,18 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [type, setType] = useState("");
   const [redirect, setRedirect] = useState(false);
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!name || !email || !password || !type) {
+      alert("Please fill all the fields");
+      return;
+    }
     // console.log(name, email, password);
     const respose = await fetch("http://localhost:4000/register", {
       method: "POST",
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({ name, email, password, type }),
       headers: { "Content-Type": "application/json" },
     });
     if (respose.status === 200) {
@@ -115,7 +120,7 @@ export default function RegisterPage() {
     }
   };
   if (redirect) {
-    return <Navigate to={"/"} />;
+    return <Navigate to={"/login"} />;
   }
 
   return (
@@ -188,14 +193,21 @@ export default function RegisterPage() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Grid>
-              {/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid> */}
+              <Grid item xs={12}>
+                <select
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
+                  className={`p-4 border border-gray-300 rounded-md w-full ${
+                    type === "" ? "text-gray-500" : ""
+                  } text-left`}
+                >
+                  <option value="" className="">
+                    select type *
+                  </option>
+                  <option value="farmer">farmer</option>
+                  <option value="industrialist">industrialist</option>
+                </select>
+              </Grid>
             </Grid>
             <Button
               type="submit"

@@ -7,9 +7,9 @@ const secret = "miniproject";
 //@route post/register
 //access public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, type } = req.body;
   //   console.log(name, email, password);
-  if (!name || !email || !password) {
+  if (!name || !email || !password || !type) {
     res.status(400);
     throw new Error("all feilds are mandatory");
   }
@@ -23,6 +23,7 @@ const registerUser = asyncHandler(async (req, res) => {
       username: name,
       email,
       password: hashedPassword,
+      type: type,
     });
     console.log(user);
     if (user) {
@@ -48,12 +49,20 @@ const loginUser = asyncHandler(async (req, res) => {
     const passOk = await bcrypt.compareSync(password, userDoc.password);
     if (passOk && userDoc) {
       jwt.sign({ email, id: userDoc._id }, secret, {}, (err, token) => {
-        if (err) throw err;
-        else {
-          res.cookie("token", token).json({
-            id: userDoc._id,
-            email,
-          });
+        if (err) {
+          console.log("loginerror");
+          throw err;
+        } else {
+          res
+            .cookie("token", token, {
+              maxAge: 24 * 60 * 60 * 1000,
+              httpOnly: true,
+            })
+            .json({
+              id: userDoc._id,
+              email,
+            });
+          console.log("token created");
         }
       });
     } else {
@@ -62,4 +71,87 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { registerUser, loginUser };
+// @desc Fetch profile details
+// @route GET /profile
+// @access Private
+const getProfileDetails = asyncHandler(async (req, res) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ error: "Token not provided" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, secret);
+
+    const user = await User.findById(decoded.id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json(user);
+  } catch (err) {
+    return res.status(401).json({ error: "Invalid token" });
+  }
+});
+
+const logoutUser = asyncHandler((req, res) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ error: "Token not provided" });
+  }
+  res.cookie("token", "", { maxAge: 0 });
+  res.json({ msg: "logout successful" });
+});
+
+const veriyJwt = async (req, res, next) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ error: "unauthorized" });
+  }
+  try {
+    const decoded = jwt.verify(token, secret);
+
+    const user = await User.findById(decoded.id);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    req.user = user;
+    next();
+  } catch (err) {
+    return res.status(401).json({ error: "unauthorized" });
+  }
+};
+
+const updateUser = async (req, res) => {
+  if (
+    !req.user ||
+    !req.body.updatedUser |
+      (req.user._id.toString() !== req.body.updatedUser._id)
+  ) {
+    return res.status(404).json("user not found");
+  }
+  const newUserObj = {
+    ...req.body.updatedUser,
+    password: req.user.password,
+  };
+  try {
+    await User.findOneAndUpdate({ _id: newUserObj._id }, newUserObj);
+    res.status(200).json("update success");
+  } catch (err) {
+    console.log(err);
+    res.status(500).json("something went wrong");
+  }
+};
+
+module.exports = {
+  registerUser,
+  loginUser,
+  getProfileDetails,
+  logoutUser,
+  veriyJwt,
+  updateUser,
+};
