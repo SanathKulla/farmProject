@@ -7,6 +7,8 @@ const {
   logoutUser,
   veriyJwt,
   updateUser,
+  getUsers,
+  getUserDetails,
 } = require("../controllers/userController");
 const router = express.Router();
 router.post("/register", registerUser);
@@ -14,5 +16,6 @@ router.post("/login", loginUser);
 router.get("/profile", getProfileDetails);
 router.get("/logout", logoutUser);
 router.post("/update", veriyJwt, updateUser);
-// router.put("/profile", profileDetails);
+router.get("/users", veriyJwt, getUsers);
+router.get("/getUser", veriyJwt, getUserDetails);
 module.exports = router;

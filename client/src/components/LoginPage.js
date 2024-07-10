@@ -41,7 +41,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const { setUser, setLoggedIn, getUserFromDb } = useUser();
+  const { loggedIn, setUser, setLoggedIn, getUserFromDb } = useUser();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -66,6 +66,9 @@ export default function LoginPage() {
   };
   if (redirect) {
     return <Navigate to={"/"} />;
+  }
+  if (loggedIn) {
+    return <Navigate to="/" />;
   }
   return (
     <ThemeProvider theme={defaultTheme}>

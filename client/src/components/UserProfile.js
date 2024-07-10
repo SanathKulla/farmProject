@@ -13,7 +13,7 @@ const getUpdatedUser = (user) => {
     address: user.address,
     contactNumber: user.contact,
     cropDetails: [...user.crops],
-    type: user.type ? user.type : "farmer", //change this by including in register page
+    type: user.type,
     _id: user._id,
   };
   return updatedUser;

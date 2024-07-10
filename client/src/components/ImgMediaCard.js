@@ -27,11 +27,6 @@ export default function MultiActionAreaCard({ cropName, imameLink }) {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-      </CardActions>
     </Card>
   );
 }

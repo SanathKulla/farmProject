@@ -1,10 +1,16 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useCrops } from "../context/CropsContext";
+import { useUser } from "../context/UserContext";
 
 function CropDetails() {
+  const { user } = useUser();
   const { name: cropName } = useParams();
   const { crops } = useCrops();
+  const navigate = useNavigate();
+  const handleBuySell = () => {
+    navigate(`/buySell/${cropName}`);
+  };
   if (!crops) return null;
   const items = crops[cropName].items;
   //arrival_date ,commodity,district,market,max_price,min_price,modal_price,variety
@@ -15,12 +21,23 @@ function CropDetails() {
           {cropName}
         </h1>
         <div className="flex gap-3">
-          <button className="text-lg px-4 py-2 text-xl text-white bg-purple-700 rounded-lg hover:bg-gray-200 hover:text-purple-700 ">
-            Buy
-          </button>
-          <button className="text-lg px-4 py-2 text-white bg-purple-700 rounded-lg hover:bg-gray-200 hover:text-purple-700">
-            Sell
-          </button>
+          {user && user?.type !== "farmer" && (
+            <button
+              onClick={handleBuySell}
+              className="text-lg px-4 py-2 text-xl text-white bg-purple-700 rounded-lg hover:bg-gray-200 hover:text-purple-700 "
+            >
+              Buy
+            </button>
+          )}
+
+          {user && user?.type === "farmer" && (
+            <button
+              onClick={handleBuySell}
+              className="text-lg px-4 py-2 text-white bg-purple-700 rounded-lg hover:bg-gray-200 hover:text-purple-700"
+            >
+              Sell
+            </button>
+          )}
         </div>
       </div>
       <div className="overflow-x-auto max-w-[95%] mx-auto">

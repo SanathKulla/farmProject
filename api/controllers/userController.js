@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
+const { use } = require("../routes/userRoutes");
 const secret = "miniproject";
 //@desc register user
 //@route post/register
@@ -147,6 +148,43 @@ const updateUser = async (req, res) => {
   }
 };
 
+const getUsers = async (req, res) => {
+  let type = req.user.type;
+  const crop = req.query.crop;
+  if (!type || !crop) {
+    return res.status(401).json({ error: "unauthorized" });
+  }
+  if (type === "farmer") type = "industrialist";
+  else type = "farmer";
+  try {
+    let users = await User.find({ "cropDetails.name": crop, type });
+    console.log(users.length);
+    if (users.length === 0) users = null;
+    return res.status(200).json({ displayUsers: users });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ err: "something went wrong" });
+  }
+};
+
+const getUserDetails = asyncHandler(async (req, res) => {
+  const _id = req.query.id;
+
+  if (!_id) {
+    return res.status(401).json({ error: "invalid" });
+  }
+
+  try {
+    const user = await User.findById(_id).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json(user);
+  } catch (err) {
+    return res.status(401).json({ error: "Invalid" });
+  }
+});
 module.exports = {
   registerUser,
   loginUser,
@@ -154,4 +192,6 @@ module.exports = {
   logoutUser,
   veriyJwt,
   updateUser,
+  getUsers,
+  getUserDetails,
 };

@@ -19,6 +19,8 @@ import { UserContext } from "./context/UserContext";
 import Logout from "./components/Logout";
 import React from "react";
 import { Toaster, toast } from "react-hot-toast";
+import BuySell from "./components/BuySell";
+import ShowProfile from "./components/ShowProfile";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -29,6 +31,8 @@ const router = createBrowserRouter(
         <Route path="cropDetails/:name" element={<CropDetails />} />
         <Route path="userProfile" element={<UserProfile />} />
         <Route path="logout" element={<Logout />} />
+        <Route path="buySell/:name" element={<BuySell />} />
+        <Route path="showUser/:id" element={<ShowProfile />} />
       </Route>
     </Route>
   )

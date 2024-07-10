@@ -50,7 +50,7 @@ function Home() {
     //   <button onClick={HandleLogin}> login</button>
     // </>
     <>
-      <div className="card-wrapper-div bg-gray-50">
+      <div className="card-wrapper-div bg-[#6D95201A]">
         <Sidebar />
         <div className="home-cards mx-auto">
           <h1 className="heading p-6 font-bold text-3xl">Trending crops</h1>

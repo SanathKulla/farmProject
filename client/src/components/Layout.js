@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import { useCrops } from "../context/CropsContext";
-import { compose } from "@mui/system";
 
 function Layout() {
   const { crops, setCrops } = useCrops();
@@ -33,7 +32,7 @@ function Layout() {
   });
   return (
     <>
-      <div>
+      <div className="font-lexend">
         <Navbar />
         <div className="pt-16">
           <Outlet />
