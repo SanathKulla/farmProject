@@ -143,7 +143,7 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="flex flex-col w-1/2 h-auto mx-auto my-10 bg-[#F0F8FF] p-8 rounded-3xl">
+    <div className="flex flex-col w-4/5 lg:w-1/2 h-auto mx-auto my-10 bg-[#F0F8FF] p-8 rounded-3xl">
       <div className=" w-full flex justify-center items-center text-3xl font-bold mb-4">
         Profile
       </div>
@@ -163,7 +163,7 @@ const UserProfile = () => {
             <span className="text-red-500 mb-2">{errors.name}</span>
           )}
         </div>
-        <div className="font-semibold text-lg text-[#4169E1] mb-4">
+        <div className="font-semibold text-lg text-[#6D9520] mb-4">
           Your Crops
         </div>
         {currentUser &&
@@ -171,7 +171,7 @@ const UserProfile = () => {
           currentUser.crops.length !== 0 &&
           currentUser.crops.map((crop, index) => (
             <div key={index} className="flex flex-col gap-3 w-full mb-4">
-              <div className="flex justify-between">
+              <div className="flex gap-3 flex-col lg:flex-row lg:gap-0 justify-between">
                 <div className="flex flex-col gap-1">
                   <label className="font-semibold text-lg text-[#4169E1]">
                     Crop Name
@@ -183,7 +183,7 @@ const UserProfile = () => {
                     value={crop.name}
                     required
                     readOnly
-                    className="p-2 rounded-md bg-[#CCCCCC] max-w-full"
+                    className="p-2 rounded-md bg-[#CCCCCC] max-w-full lg:w-[140px]"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
@@ -196,7 +196,7 @@ const UserProfile = () => {
                     name="minPrice"
                     value={crop.minPrice}
                     onChange={(e) => handleCropPriceChange(index, e)}
-                    className="p-2 rounded-md bg-[#CCCCCC]"
+                    className="p-2 rounded-md bg-[#CCCCCC] lg:w-[140px]"
                     required
                   />
                 </div>
@@ -210,7 +210,7 @@ const UserProfile = () => {
                     name="maxPrice"
                     value={crop.maxPrice}
                     onChange={(e) => handleCropPriceChange(index, e)}
-                    className="p-2 rounded-md bg-[#CCCCCC]"
+                    className="p-2 rounded-md bg-[#CCCCCC] lg:w-[140px]"
                     required
                   />
                 </div>
@@ -233,16 +233,16 @@ const UserProfile = () => {
         {
           //new crops here
           <div className="flex flex-col gap-3 w-full mb-4">
-            <div className="font-semibold text-lg text-[#4169E1]">
+            <div className="font-semibold text-lg text-[#6D9520]">
               Add New Crops
             </div>
-            <div className="flex justify-between">
+            <div className="flex gap-3 flex-col lg:flex-row lg:gap-0 justify-between">
               <div className="flex flex-col gap-1">
                 <label className="font-semibold text-lg text-[#4169E1]">
                   Crop Name
                 </label>
                 <select
-                  className="p-2 rounded-md bg-[#CCCCCC]"
+                  className="p-2 rounded-md bg-[#CCCCCC]  lg:w-[140px]"
                   onChange={handleSelectedCropChange}
                   value={selectedCrop}
                 >
@@ -262,7 +262,7 @@ const UserProfile = () => {
                 </select>
               </div>
               <div className="flex flex-col gap-1">
-                <label className="font-semibold text-lg text-[#4169E1]">
+                <label className="font-semibold text-lg text-[#4169E1] ">
                   Min Price
                 </label>
                 <input
@@ -270,7 +270,7 @@ const UserProfile = () => {
                   name="minPrice"
                   onChange={handleAddMinPriceChange}
                   value={minPrice}
-                  className="p-2 rounded-md bg-[#CCCCCC]"
+                  className="p-2 rounded-md bg-[#CCCCCC]  lg:w-[140px]"
                 />
               </div>
               <div className="flex flex-col gap-1">
@@ -282,7 +282,7 @@ const UserProfile = () => {
                   name="maxPrice"
                   onChange={handleAddMaxPriceChange}
                   value={maxPrice}
-                  className="p-2 rounded-md bg-[#CCCCCC]"
+                  className="p-2 md:rounded-md bg-[#CCCCCC]  lg:w-[140px]"
                 />
               </div>
             </div>

@@ -42,6 +42,7 @@ function App() {
   const [crops, setCrops] = useState(null);
   const [user, setUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(user !== null);
+  const [isOpen, setIsOpen] = useState(false);
   const getUserFromDb = async () => {
     try {
       const response = await fetch("http://localhost:4000/profile", {
@@ -66,7 +67,15 @@ function App() {
   return (
     <CropsContext.Provider value={{ crops, setCrops }}>
       <UserContext.Provider
-        value={{ user, setUser, loggedIn, setLoggedIn, getUserFromDb }}
+        value={{
+          user,
+          setUser,
+          loggedIn,
+          setLoggedIn,
+          getUserFromDb,
+          isOpen,
+          setIsOpen,
+        }}
       >
         <Toaster />
         <RouterProvider router={router} />

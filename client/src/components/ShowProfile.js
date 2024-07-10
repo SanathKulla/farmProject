@@ -30,7 +30,7 @@ const ShowProfile = () => {
   }
 
   return (
-    <div className="flex flex-col w-1/2 h-auto mx-auto my-10 bg-[#F0F8FF] p-8 rounded-3xl">
+    <div className="flex flex-col w-3/4 lg:w-1/2 h-auto mx-auto my-10 bg-[#F0F8FF] p-8 rounded-3xl">
       <div className=" w-full flex justify-center items-center text-3xl font-bold mb-4">
         {currentUser.username} Profile
       </div>

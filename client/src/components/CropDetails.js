@@ -15,8 +15,8 @@ function CropDetails() {
   const items = crops[cropName].items;
   //arrival_date ,commodity,district,market,max_price,min_price,modal_price,variety
   return !items ? null : (
-    <div className="w-screen">
-      <div className="flex  mb-10 max-w-[95%] mx-auto justify-between items-center mt-3">
+    <div className="w-full">
+      <div className="flex px-4 mb-10 max-w-[95%] mx-auto justify-between items-center mt-3">
         <h1 className="text-3xl font-bold text-center text-blue-500">
           {cropName}
         </h1>
@@ -40,7 +40,7 @@ function CropDetails() {
           )}
         </div>
       </div>
-      <div className="overflow-x-auto max-w-[95%] mx-auto">
+      <div className="overflow-x-auto max-w-[95%] mx-auto hide-scrollbar">
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
             <tr className="bg-gray-300">

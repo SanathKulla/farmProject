@@ -46,23 +46,23 @@ const BuySell = () => {
     );
   }
   return (
-    <div className="w-1/2 mx-auto my-10">
+    <div className="w-3/4 lg:w-1/2 mx-auto my-10">
       <div className="flex justify-center items-center mx-auto p-4 text-3xl mb-10 font-bold">{`${name} ${
         user.type === "farmer" ? "Buyers" : "Sellers"
       }`}</div>
       {displayUsers.map((displayUser) => (
         <div
           key={displayUser._id}
-          className="flex flex-col mb-16 bg-gray-300 p-6 rounded-lg shadow-lg"
+          className="flex  flex-col mb-16 bg-gray-300 p-6 rounded-lg shadow-lg"
         >
-          <div className="flex justify-between px-2 text-xl font-bold mb-8">
+          <div className="flex gap-3 flex-col  lg:flex-row lg:gap-0 justify-between px-2 text-xl font-bold mb-8">
             <div>
               {`${displayUser.type === "farmer" ? "Seller" : "Buyer"} Name`} :{" "}
               <span className="ml-2 text-blue-500 font-semibold text-lg">
                 {displayUser.username}
               </span>
             </div>
-            <div className="flex gap-12">
+            <div className="flex gap-3 flex-col lg:flex-row lg:gap-12">
               <div>
                 Min Price :
                 <span className="ml-4 text-blue-500 font-semibold text-lg">
@@ -83,7 +83,7 @@ const BuySell = () => {
               </div>
             </div>
           </div>
-          <div className="px-2 flex justify-end items-center w-ful">
+          <div className="px-2 flex justify-start lg:justify-end items-center w-full">
             <button
               onClick={() => navigate(`/showUser/${displayUser._id}`)}
               className="py-2 px-4 bg-blue-500 rounded-lg text-white  hover:shadow-xl"
